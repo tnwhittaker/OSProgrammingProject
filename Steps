@@ -1,0 +1,7 @@
+Create an array with 10 integers
+Create another array (boolean) that matches the first array(all false)
+
+First input should be number of processes (up to 30)
+Second input should be positon of value (0-9)
+
+Take the first 10 values from input and dump it in the 10 integer array
