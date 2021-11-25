@@ -3,11 +3,16 @@
 #include <cstdlib>
 using namespace std;
 
- int generatePID(){
-        srand(time(NULL));
-        int random=10 + rand() % 100;
-        return random;
-    };
+ 
+
+struct PCB{
+    int PID;
+    int task;
+    int data[];
+    string startTime;
+    string endTime;
+    int attempts;
+    };//Creates processes based on how many were inputted
 
 void mainDriver(){
     int processNum;
@@ -31,18 +36,11 @@ void mainDriver(){
     {
         cerr<<"A number was not entered. Run the program and try again";
     }//Checks if the number entered is within range and is actually a number
+    PCB pBlock[processNum];
+    srand(time(NULL));
 
-    struct PCB{
-    int PID= generatePID();
-    int task;
-    int data[];
-    string startTime;
-    string endTime;
-    int attempts;
-    }pBlock[processNum];//Creates processes based on how many were inputted
-    
     for(int a=0;a<processNum;a++){
-        pBlock[a].PID=generatePID();
+        pBlock[a].PID=rand() % 95 +10;
     }
 
 
