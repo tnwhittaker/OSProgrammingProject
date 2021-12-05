@@ -124,14 +124,14 @@ void Tasks(int p,int pid)
 
 }
 //Tasks
-void adding()
+void adding()//not done :(
 {
 
     priority=1;
     //cout<<"\nThis is the adding function"<<endl;
 }
 
-void copying()
+void copying()//not ddoneeeeeeee
 {
     //int p,pro,c;
     priority=2;
