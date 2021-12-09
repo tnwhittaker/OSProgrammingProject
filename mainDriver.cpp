@@ -46,7 +46,9 @@ void activeFive(int b, int batch, struct PCB pblock[30]){
         active[b].PID=pblock[b].PID;
         active[b].startTime=pblock[b].startTime;
         active[b].done=false;
-        active[b].attempts=1;       
+        active[b].attempts=1;    
+
+        cout<<active[b].PID<<endl;
     }
 
 }//Loads 5 processes into the ready queue
@@ -99,7 +101,7 @@ void mainDriver(){
         pBlock[a].task=rand() %3 +1;
         pBlock[a].PID=rand() % 150;
         pBlock[a].startTime= time(NULL);
-        Sleep(5000);
+        Sleep(2000);
 
     }//Assigns a random PID to each of the processes
 
@@ -107,7 +109,6 @@ void mainDriver(){
     int pri=0,task=1;
     bool run= true;
     while(run){
-        //for(;sze<=batch;sze++){
             for(pri=0;pri<5;pri++){
             if(active[pri].task==1){
                 sharedList[startingPoint][1]=0;//Locks the integer in the shared list
@@ -123,7 +124,6 @@ void mainDriver(){
                 if(startingPoint>9){
                     startingPoint=0;
                 }
-                //continue;
             }else{
                 active[pri].attempts++;
             }
@@ -151,7 +151,7 @@ void mainDriver(){
             }else{
                 active[pri].attempts++;
                 }
-            }
+            }//Searches through the active processes and executes all with priority 2
 
             for(pri=0;pri<5;pri++){
             if (active[pri].done==true){
@@ -170,109 +170,14 @@ void mainDriver(){
             }else{
                 active[pri].attempts++;
                 }
-            }
-            if (pri>1)
+            }//Searches through the active processes and executes all with priority 3
+            if (batch>=processNum)
             {
                 run=false;
             }
-            
-            
-        //}
+            batch+=5;
+            activeFive(pri,batch,pBlock);
     }
-
-    // //Function to lock in integers(FCFS)
-    // for(;sze<processNum;sze++){
-    //     for(;sze<=batch;sze++){
-    //         if(active[sze].startTime<active[sze+1].startTime){
-    //             if(active[sze].task <= active[sze+1].task){
-    //                 if(active[sze].task==1){
-    //                     sharedList[startingPoint][1]=0;//Locks the integer in the shared list
-    //                     sharedList[startingPoint+1][1]=0;//Locks the integer in the shared list
-    //                     pBlock[sze].data[0]=startingPoint;  
-    //                     pBlock[sze].data[1]=startingPoint+1;
-    //                     cout<<sharedList[startingPoint][0]<<"+"<<sharedList[startingPoint+1][0];
-    //                     sharedList[startingPoint+1][0]=sharedList[startingPoint][0]+sharedList[startingPoint+1][0];
-    //                     cout<<"= "<<sharedList[startingPoint+1][0]<<endl;
-    //                     startingPoint++;
-    //                 }
-    //                 if(active[sze].task==2){
-    //                     sharedList[startingPoint][1]=0;//Locks the integer in the shared list
-    //                     sharedList[startingPoint+1][1]=0;//Locks the integer in the shared list
-    //                     cout<<"Shared list value before copying: "<<sharedList[startingPoint+1][0]<<endl;
-    //                     sharedList[startingPoint+1][0]=sharedList[startingPoint][0];
-    //                     cout<<"Shared list value after copying: "<<sharedList[startingPoint+1][0]<<endl;
-    //                     pBlock[sze].data[0]=startingPoint;  
-    //                     pBlock[sze].data[1]=startingPoint+1;
-    //                     startingPoint++;
-    //                 }
-    //                 /*if(active[sze+1].task==2){
-    //                    sharedList[startingPoint+1][1]=0;//Locks the integer in the shared list
-    //                     sharedList[startingPoint+2][1]=0;//Locks the integer in the shared list
-    //                     cout<<"Shared list value before copying: "<<sharedList[startingPoint+1][0]<<endl;
-    //                     sharedList[startingPoint+2][0]=sharedList[startingPoint+1][0];
-    //                     cout<<"Shared list value after copying: "<<sharedList[startingPoint+1][0]<<endl;
-    //                     pBlock[sze].data[0]=startingPoint+1;  
-    //                     pBlock[sze].data[1]=startingPoint+2;
-    //                     startingPoint++; 
-    //                 }*/
-    //             }
-    //             if(active[sze].task >= active[sze+1].task && active[sze].task==3){
-    //                 sharedList[startingPoint][1]=0;//Locks the integer in the shared list
-    //                 pBlock[sze].data[0]=startingPoint;  
-    //                 pBlock[sze].data[1]=0;
-    //                 cout<<"Displaying >>"<<sharedList[startingPoint][0]<<endl;
-    //                 startingPoint++;
-    //             }//Checks if the task of the first priority is higher than the second one
-
-    //             /*
-    //             if(active[sze+1].task <= active[sze].task){
-    //                 if(active[sze+1].task==1){
-    //                     sharedList[startingPoint][1]=0;//Locks the integer in the shared list
-    //                     sharedList[startingPoint+1][1]=0;//Locks the integer in the shared list
-    //                     pBlock[sze].data[0]=startingPoint;  
-    //                     pBlock[sze].data[1]=startingPoint+1;
-    //                     cout<<sharedList[startingPoint][0]<<"+"<<sharedList[startingPoint+1][0];
-    //                     sharedList[startingPoint+1][0]=sharedList[startingPoint][0]+sharedList[startingPoint+1][0];
-    //                     cout<<"= "<<sharedList[startingPoint+1][0]<<endl;
-    //                     startingPoint++;
-    //                 }
-    //                 if(active[sze+1].task==2){
-    //                     sharedList[startingPoint][1]=0;//Locks the integer in the shared list
-    //                     sharedList[startingPoint+1][1]=0;//Locks the integer in the shared list
-    //                     cout<<"Shared list value before copying: "<<sharedList[startingPoint+1][0]<<endl;
-    //                     sharedList[startingPoint+1][0]=sharedList[startingPoint][0];
-    //                     cout<<"Shared list value after copying: "<<sharedList[startingPoint+1][0]<<endl;
-    //                     pBlock[sze].data[0]=startingPoint;  
-    //                     pBlock[sze].data[1]=startingPoint+1;
-    //                     startingPoint++;
-    //                 }
-    //             }else if(active[sze+1].task >= active[sze].task && active[sze+1].task==3){
-    //                 sharedList[startingPoint][1]=0;//Locks the integer in the shared list
-    //                 pBlock[sze].data[0]=startingPoint;  
-    //                 pBlock[sze].data[1]=0;
-    //                 cout<<"Displaying >>"<<sharedList[startingPoint][0]<<endl;
-    //                 startingPoint++;
-    //             }//Checks if the task of the first priority is higher than the second one//Checks if the priority in the second process if higher
-    //             */
-    //             if(active[sze+1].task<active[sze].task){
-    //                 if(active[sze+1].task==2){
-    //                         sharedList[startingPoint][1]=0;//Locks the integer in the shared list
-    //                         sharedList[startingPoint+1][1]=0;//Locks the integer in the shared list
-    //                         cout<<"Shared list value before copying: "<<sharedList[startingPoint+1][0]<<endl;
-    //                         sharedList[startingPoint+1][0]=sharedList[startingPoint][0];
-    //                         cout<<"Shared list value after copying: "<<sharedList[startingPoint+1][0]<<endl;
-    //                         pBlock[sze+1].data[0]=startingPoint;  
-    //                         pBlock[sze+1].data[1]=startingPoint+1;
-    //                         startingPoint++;
-    //                     }
-    //             }
-
-    //         }
-            
-           
-    //     }
-    // }
-
    
    
     cout<<"Process ID\tTask\tData\tStart Time\tEnd Time\tAttempts"<<endl;
