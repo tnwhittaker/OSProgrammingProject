@@ -6,11 +6,6 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 
-#ifdef _WIN32
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
 
 #include <iostream>
 #include <ctime>
@@ -113,24 +108,21 @@ void mainDriver(){
     for(int a=0;a<processNum;a++){
         pBlock[a].task=rand() % 3 +1;
         pBlock[a].PID=rand() % 150;
-        Sleep(5000);
+        Sleep(2000);
         pBlock[a].startTime= time(NULL);
-
-
     }//Assigns a random PID to each of the processes
 
     activeFive(0,processNum,pBlock);//Calls the function that loads 5 processes into the ready queue
     int pri=0,task=1;
     bool run= true;
     while(run){
+            int checkProcessCount=0;
             for(pri=0;pri<processNum;pri++){
             if(active[pri].task==1){
-
             	cout<<endl<<"Shared List Before Adding: "<<std::flush;
             	for(int x = 0; x < 10; x++){
             		cout<<sharedList[x][0]<<" "<<std::flush;
             	}
-
                 sharedList[startingPoint][1]=0;//Locks the integer in the shared list
                 sharedList[startingPoint+1][1]=0;//Locks the integer in the shared list
                 active[pri].data[0]=startingPoint;
@@ -147,14 +139,15 @@ void mainDriver(){
                             		cout<<sharedList[x][0]<<" "<<std::flush;
                             	}
                 cout<<endl;
-                if(pri % 5 == 0){
-                   cout<<"Reach 5!"<<endl;
-
+                checkProcessCount++;
+                if(checkProcessCount % 5==0){
+                    cout<<"5 Processes have been executed...";
+                    system("pause");
                 }
+
                 if(startingPoint>9){
                     startingPoint=0;
                 }
-                //continue;
             }else{
                 active[pri].attempts++;
             }
@@ -184,12 +177,17 @@ void mainDriver(){
                      cout<<sharedList[x][0]<<" "<<std::flush;
                 }
                 cout<<endl;
+                checkProcessCount++;
+                if(checkProcessCount%5==0){
+                    cout<<"5 Processes have been executed..."<<endl;
+                    system("pause");
+                }
                 startingPoint++;
                 a++;
-                if(pri % 5 == 0){
+                /*if(pri % 5 == 0){
                                    cout<<"Reach 5!"<<endl;
 
-                                }
+                                }*/
                 active[pri].done=true;
                 if(startingPoint>9){
                     startingPoint=0;
@@ -211,15 +209,20 @@ void mainDriver(){
                 active[pri].data[1]=0;
                 active[pri].endTime=time(NULL);
                 cout<<endl<<"Displaying >> "<<sharedList[startingPoint][0]<<endl;
+                checkProcessCount++;
+                if(checkProcessCount%5==0){
+                    cout<<"5 Processes have been executed..."<<endl;
+                    system("pause");
+                }
                 startingPoint++;
                  if(startingPoint>9){
                      startingPoint=0;
                  }
                 active[pri].done=true;
-                if(pri % 5 == 0){
+                /*if(pri % 5 == 0){
                                    cout<<"Reach 5!"<<endl;
 
-                                }
+                                }*/
 
             }else{
                 active[pri].attempts++;
