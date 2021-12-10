@@ -1,16 +1,16 @@
-//============================================================================
-// Name        : Osproj.cpp
-// Author      : 
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
-//============================================================================
-
-
+/*
+Group Members:
+Torrike Whittaker
+Oshane Williams
+Abbygaye Stewart
+Joel Desgouttes 
+Dujon Goulbourne 
+*/
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
 #include <windows.h>
+#include <fstream>
 
 using namespace std;
 
@@ -63,9 +63,8 @@ void activeFive(int b, int batch, struct PCB pblock[30]){
 
 
 void mainDriver(){
-
-
     int processNum, startingPoint,sze=0,batch=5;
+    fstream accessReport("Access.txt",ios::app|ios::in);//Creates file for accessing and appending to create access report
 
     try{
         cout<<"Hello, please enter the number of processes\n";
@@ -119,12 +118,14 @@ void mainDriver(){
             int checkProcessCount=0;
             for(pri=0;pri<processNum;pri++){
             if(active[pri].task==1){
+                cout<<"Executing process: "<<active[pri].PID<<endl;
             	cout<<endl<<"Shared List Before Adding: "<<std::flush;
             	for(int x = 0; x < 10; x++){
             		cout<<sharedList[x][0]<<" "<<std::flush;
             	}
                 sharedList[startingPoint][1]=0;//Locks the integer in the shared list
                 sharedList[startingPoint+1][1]=0;//Locks the integer in the shared list
+                accessReport<<"Process "<<active[pri].PID<<" locked integers "<<sharedList[startingPoint][0]<<" and "<<sharedList[startingPoint+1][0]<<endl;
                 active[pri].data[0]=startingPoint;
                 active[pri].data[1]=startingPoint+1;
                 cout<<endl<<sharedList[startingPoint][0]<<"+"<<sharedList[startingPoint+1][0]<<std::flush;
@@ -134,6 +135,9 @@ void mainDriver(){
                 startingPoint++;
                 active[pri].done=true;
                 active[pri].endTime=time(NULL);
+                sharedList[startingPoint][1]=1;//Unlocks the integer in the shared list
+                sharedList[startingPoint+1][1]=1;//Unlocks the integer in the shared list
+                accessReport<<"Process "<<active[pri].PID<<" unlocked integers "<<sharedList[startingPoint][0]<<" and "<<sharedList[startingPoint+1][0]<<endl;
                 cout<<"Shared List After Adding: "<<std::flush;
                 for(int x = 0; x < 10; x++){
                             		cout<<sharedList[x][0]<<" "<<std::flush;
@@ -150,6 +154,7 @@ void mainDriver(){
                 }
             }else{
                 active[pri].attempts++;
+                accessReport<<"Process "<<active[pri].PID<<" attempted to locked integers "<<sharedList[startingPoint][0]<<" and "<<sharedList[startingPoint+1][0]<<" but its priority was not high enough"<<endl;
             }
 
             }//Searches through the active processes and executes all with priority 1
@@ -159,6 +164,7 @@ void mainDriver(){
                     continue;
                 }
             if(active[pri].task==2){
+                cout<<"Executing process: "<<active[pri].PID<<endl;
                 int a=startingPoint+1;
                 sharedList[startingPoint][1]=0;//Locks the integer in the shared list
                 sharedList[a][1]=0;//Locks the integer in the shared list
@@ -167,7 +173,7 @@ void mainDriver(){
                             		cout<<sharedList[x][0]<<" "<<std::flush;
                             	}
                 cout<<endl<<"Shared list value before copying: "<<sharedList[a][0]<<endl;
-                sharedList[a][0]=sharedList[startingPoint++][0];
+                sharedList[a][0]=sharedList[startingPoint][0];
                 cout<<"Shared list value after copying: "<<sharedList[a][0]<<endl;
                 active[pri].data[0]=startingPoint;
                 active[pri].data[1]=a;
@@ -184,10 +190,6 @@ void mainDriver(){
                 }
                 startingPoint++;
                 a++;
-                /*if(pri % 5 == 0){
-                                   cout<<"Reach 5!"<<endl;
-
-                                }*/
                 active[pri].done=true;
                 if(startingPoint>9){
                     startingPoint=0;
@@ -203,6 +205,7 @@ void mainDriver(){
             if (active[pri].done==true){
                     continue;
                 }
+            cout<<"Executing process: "<<active[pri].PID<<endl;
             if(active[pri].task==3 ){
                 sharedList[startingPoint][1]=0;//Locks the integer in the shared list
                 active[pri].data[0]=startingPoint;
@@ -219,29 +222,20 @@ void mainDriver(){
                      startingPoint=0;
                  }
                 active[pri].done=true;
-                /*if(pri % 5 == 0){
-                                   cout<<"Reach 5!"<<endl;
-
-                                }*/
 
             }else{
                 active[pri].attempts++;
                 }
             }
-
-
-
             if (pri>1)
             {
                 run=false;
             }
 
 
-        //}
+        
     }
 
-//    time_t now = time( NULL);
-//    struct tm now_tm = *localtime( &now);
 
     cout<<endl<<"Process ID\tTask\tData\tStart Time\tEnd Time\tAttempts"<<endl<<endl;
     for(int a=0;a<processNum;a++){
