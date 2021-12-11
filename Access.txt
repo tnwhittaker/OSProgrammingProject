@@ -1,0 +1,24 @@
+Process 41 attempted to locked integers 4 and 6 but its priority was not high enough
+Process 125 attempted to locked integers 4 and 6 but its priority was not high enough
+Process 90 attempted to locked integers 4 and 6 but its priority was not high enough
+Process 40 attempted to locked integers 4 and 6 but its priority was not high enough
+Process 50 attempted to locked integers 4 and 6 but its priority was not high enough
+Process 142 attempted to locked integers 4 and 6 but its priority was not high enough
+Process 107 attempted to locked integers 4 and 6 but its priority was not high enough
+Process 57 locked integers 4 and 6
+Process 57 unlocked integers 10 and 8
+Process 16 attempted to locked integers 10 and 8 but its priority was not high enough
+Process 98 locked integers 10 and 8
+Process 98 unlocked integers 18 and 10
+Process 41 attempted to locked integers 18 and 10 but its priority was not high enough
+Process 125 attempted to locked integers 18 and 10 but its priority was not high enough
+Process 90 locked integers 18 and 10
+Process 40 locked integers 18 and 12
+Process 50 locked integers 18 and 14
+Process 142 attempted to locked integers 18 and 16 but its priority was not high enough
+Process 107 attempted to locked integers 18 and 16 but its priority was not high enough
+Process 16 locked integers 18 and 16
+Process 41 locked integer 18 and 18
+Process 125 locked integer 18 and 20
+Process 142 locked integer 20 and 4935936
+Process 107 locked integer 2 and 4
