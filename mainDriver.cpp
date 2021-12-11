@@ -27,6 +27,19 @@ using namespace std;
     system("cls");
  }
 
+ void clear(){
+    system("cls");
+    Sleep(100);
+    cout<<"Generating table";
+    Sleep(1200);
+    cout<<".";
+    Sleep(1200);
+    cout<<".";
+    Sleep(1200);
+    cout<<".";
+    system("cls");
+ }
+
  //Two Dimmensional array that stores the integer values and their key values(All are unlocked by default)
     int sharedList[10][2]={{2,1},{4,1},{6,1},{8,1},{10,1},{12,1},{14,1},{16,1},{18,1},{20,1}};
 
@@ -64,7 +77,7 @@ void activeFive(int b, int batch, struct PCB pblock[30]){
 
 void mainDriver(){
     int processNum, startingPoint,sze=0,batch=5;
-    fstream accessReport("Access.txt",ios::app|ios::in);//Creates file for accessing and appending to create access report
+    fstream accessReport("Access.txt",ios::app);//Creates file for accessing and appending to create access report
 
     try{
         cout<<"Hello, please enter the number of processes\n";
@@ -99,7 +112,7 @@ void mainDriver(){
         cerr<<"A number was not entered. Run the program and try again";
         exit(8);
     }//Checks if the number entered is within range and is actually a number
-     //clearScreen();
+     clearScreen();
      PCB pBlock[processNum];
 
 
@@ -168,7 +181,7 @@ void mainDriver(){
                 int a=startingPoint+1;
                 sharedList[startingPoint][1]=0;//Locks the integer in the shared list
                 sharedList[a][1]=0;//Locks the integer in the shared list
-                accessReport << "Process " << active[pri].PID << " locked integers " << sharedList[startingPoint][0] << " and " << sharedList[startingPoint + 1][0] << endl;
+                accessReport<<"Process "<<active[pri].PID<<" locked integers "<<sharedList[startingPoint][0]<<" and "<<sharedList[startingPoint+1][0]<<endl;
                 cout<<endl<<"Shared List Before Copying: "<<std::flush;
                             	for(int x = 0; x < 10; x++){
                             		cout<<sharedList[x][0]<<" "<<std::flush;
@@ -199,7 +212,7 @@ void mainDriver(){
 
             }else{
                 active[pri].attempts++;
-                accessReport << "Process " << active[pri].PID << " attempted to locked integers " << sharedList[startingPoint][0] << " and " << sharedList[startingPoint + 1][0] << " but its priority was not high enough" << endl;
+                accessReport<<"Process "<<active[pri].PID<<" attempted to locked integers "<<sharedList[startingPoint][0]<<" and "<<sharedList[startingPoint+1][0]<<" but its priority was not high enough"<<endl;
                 }
             }
 
@@ -210,7 +223,7 @@ void mainDriver(){
             cout<<"Executing process: "<<active[pri].PID<<endl;
             if(active[pri].task==3 ){
                 sharedList[startingPoint][1]=0;//Locks the integer in the shared list
-                accessReport << "Process " << active[pri].PID << " locked integer " << sharedList[startingPoint][0] << " and " << sharedList[startingPoint + 1][0] << endl;
+                accessReport<<"Process "<<active[pri].PID<<" locked integer "<<sharedList[startingPoint][0]<<" and "<<sharedList[startingPoint+1][0]<<endl;
                 active[pri].data[0]=startingPoint;
                 active[pri].data[1]=0;
                 active[pri].endTime=time(NULL);
@@ -253,14 +266,24 @@ void mainDriver(){
     	active[a].task<<"\t"<<
 		active[a].data[0]<<","<<active[a].data[1]<<"\t"<<
 		now_starttm.tm_hour<<":"<<now_starttm.tm_min<<":"<<now_starttm.tm_sec<<"\t\t"<<
-		now_endtm.tm_hour<<":"<<now_endtm.tm_min<<":"<<now_endtm.tm_sec<<"\t\t   "<<
-		active[a].attempts<<
-		endl;
+		now_endtm.tm_hour<<":"<<now_endtm.tm_min<<":"<<now_endtm.tm_sec<<"\t\t  "<<
+		active[a].attempts<<endl;
 
 
         Sleep(1500);
     }
 
+    cout<<endl<<"ACCESS SEQUENCE REPORT\n"<<endl;
+    fstream readReport("Access.txt",ios::in);
+    while(!readReport.eof()){
+            string a;
+            getline(readReport,a);
+            if(readReport.eof()){
+                break;
+            }
+            cout<<a<<endl;
+          
+        }
 
 }
 
