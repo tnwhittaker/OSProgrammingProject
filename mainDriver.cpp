@@ -124,7 +124,7 @@ void mainDriver(){
         pBlock[a].startTime= time(NULL);
     }//Assigns a random PID to each of the processes
 
-    activeFive(0,processNum,pBlock);//Calls the function that loads 5 processes into the ready queue
+    activeFive(0,processNum,pBlock);//Calls the function that loads the processes into the ready queue
     int pri=0,task=1;
     bool run= true;
     while(run){
@@ -162,7 +162,7 @@ void mainDriver(){
                     system("pause");
                 }
 
-                if(startingPoint>9){
+                if(startingPoint>8){
                     startingPoint=0;
                 }
             }else{
@@ -205,7 +205,7 @@ void mainDriver(){
                 startingPoint++;
                 a++;
                 active[pri].done=true;
-                if(startingPoint>9){
+                if(startingPoint>8){
                     startingPoint=0;
                 }
 
@@ -234,7 +234,7 @@ void mainDriver(){
                     system("pause");
                 }
                 startingPoint++;
-                 if(startingPoint>9){
+                 if(startingPoint>8){
                      startingPoint=0;
                  }
                 active[pri].done=true;
@@ -282,6 +282,7 @@ void mainDriver(){
                 break;
             }
             cout<<a<<endl;
+            Sleep(1000);
           
         }
 
