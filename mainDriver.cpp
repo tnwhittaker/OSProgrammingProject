@@ -168,6 +168,7 @@ void mainDriver(){
                 int a=startingPoint+1;
                 sharedList[startingPoint][1]=0;//Locks the integer in the shared list
                 sharedList[a][1]=0;//Locks the integer in the shared list
+                accessReport << "Process " << active[pri].PID << " locked integers " << sharedList[startingPoint][0] << " and " << sharedList[startingPoint + 1][0] << endl;
                 cout<<endl<<"Shared List Before Copying: "<<std::flush;
                             	for(int x = 0; x < 10; x++){
                             		cout<<sharedList[x][0]<<" "<<std::flush;
@@ -198,6 +199,7 @@ void mainDriver(){
 
             }else{
                 active[pri].attempts++;
+                accessReport << "Process " << active[pri].PID << " attempted to locked integers " << sharedList[startingPoint][0] << " and " << sharedList[startingPoint + 1][0] << " but its priority was not high enough" << endl;
                 }
             }
 
@@ -208,6 +210,7 @@ void mainDriver(){
             cout<<"Executing process: "<<active[pri].PID<<endl;
             if(active[pri].task==3 ){
                 sharedList[startingPoint][1]=0;//Locks the integer in the shared list
+                accessReport << "Process " << active[pri].PID << " locked integer " << sharedList[startingPoint][0] << " and " << sharedList[startingPoint + 1][0] << endl;
                 active[pri].data[0]=startingPoint;
                 active[pri].data[1]=0;
                 active[pri].endTime=time(NULL);
